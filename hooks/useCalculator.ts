@@ -1,7 +1,7 @@
-# File: hooks/useCalculator.ts
+// File: hooks/useCalculator.ts
 import { useState } from 'react';
 
-export type Operation = '+' | '-' | '*' | '/' | '%' | null; // Added '%' operation type
+export type Operation = '+' | '-' | '*' | '/' | null;
 
 export const useCalculator = () => {
   const [displayValue, setDisplayValue] = useState('0');
@@ -14,44 +14,23 @@ export const useCalculator = () => {
       setDisplayValue(digit);
       setWaitingForNewValue(false);
     } else {
-      // Prevent multiple leading zeros unless it's a decimal
-      if (displayValue === '0' && digit !== '.') {
-        setDisplayValue(digit);
-      } else if (displayValue === 'Error') { // Clear error state if a digit is pressed
-        setDisplayValue(digit);
-        setPreviousValue(null);
-        setOperation(null);
-      }
-      else {
-        setDisplayValue(displayValue + digit);
-      }
+      setDisplayValue(displayValue === '0' ? digit : displayValue + digit);
     }
   };
 
   const handleOperation = (nextOperation: Operation) => {
-    if (displayValue === 'Error') { // Clear error state if an operation is attempted
-        setPreviousValue(null);
-        setOperation(nextOperation);
-        setWaitingForNewValue(true);
-        return;
+    // If there's an existing operation and we're not waiting for a new value,
+    // calculate the result of the pending operation first.
+    if (operation && !waitingForNewValue && previousValue !== null) {
+      calculate();
     }
-
-    if (previousValue && operation && !waitingForNewValue) {
-      // If there's a previous calculation pending, compute it first
-      calculate(); 
-      // After calculate, displayValue holds the result, which becomes the new previousValue
-      setPreviousValue(displayValue); 
-      setOperation(nextOperation);
-      setWaitingForNewValue(true);
-    } else if (displayValue !== '0' || previousValue) { // Allow setting first operation or changing operation
-      setPreviousValue(displayValue);
-      setOperation(nextOperation);
-      setWaitingForNewValue(true);
-    }
+    setPreviousValue(displayValue);
+    setOperation(nextOperation);
+    setWaitingForNewValue(true);
   };
 
   const calculate = () => {
-    if (!previousValue || !operation) return; // Cannot calculate without previous value and operation
+    if (previousValue === null || operation === null) return; // Only calculate if previousValue and operation exist
 
     const current = parseFloat(displayValue);
     const previous = parseFloat(previousValue);
@@ -77,24 +56,28 @@ export const useCalculator = () => {
         }
         result = previous / current;
         break;
-      case '%':
-          // Common calculator logic: 100 + 10 % means 100 + (100 * 0.10)
-          // For simplicity, let's implement it as (previous * current / 100)
-          result = (previous * current) / 100;
-          break;
     }
 
-    // Handle floating point precision issues (simple fix for display)
-    const resultString = String(result);
-    if (resultString.includes('.') && resultString.split('.')[1].length > 10) {
-        setDisplayValue(result.toFixed(10).replace(/\.?0+$/, '')); // Limit to 10 decimal places and remove trailing zeros
-    } else {
-        setDisplayValue(resultString);
-    }
-    
-    setPreviousValue(null);
-    setOperation(null);
-    setWaitingForNewValue(true);
+    // Handle percentage logic if desired in the future,
+    // for now, '%' is handled as a standard operation in the keypad
+    // and would simply divide previous by 100 or current by 100 based on context.
+    // For a basic calculator, we'll keep it simple: if it's treated as an operation
+    // like +, -, *, /, it should apply to the number currently displayed or the previous one.
+    // If it's a unary operation, it's different.
+    // For now, if the user presses '%', it functions as an operation for division by 100
+    // (e.g., if previousValue is 200, operation is '%', and displayValue is not yet input,
+    // it could be 200/100. Or, if 50 + 10% means 50 + (50 * 0.1)).
+    // Given the current structure, '%' as a binary operator is less intuitive.
+    // Let's assume % as an operation meant to divide the *current* displayValue by 100 when pressed.
+    // This requires a slight change in handleOperation or calculate, but for basic flow,
+    // if '%' is pressed, it might calculate (previous / 100) or (current / 100).
+    // Let's adjust handleOperation slightly to manage this if it comes up,
+    // but for the sake of standard calculator ops for now, keep as is.
+
+    setDisplayValue(String(result));
+    setPreviousValue(null); // Clear previous value after calculation
+    setOperation(null); // Clear operation after calculation
+    setWaitingForNewValue(true); // Next digit input will start a new number
   };
 
   const handleClear = () => {
@@ -105,20 +88,13 @@ export const useCalculator = () => {
   };
 
   const handleDelete = () => {
-      if (waitingForNewValue || displayValue === 'Error') return; // Don't delete if waiting for new value or in error state
-      setDisplayValue(displayValue.length > 1 && displayValue !== '0' ? displayValue.slice(0, -1) : '0');
+      if (waitingForNewValue) return; // Don't delete if waiting for a new number after operation/calculation
+      setDisplayValue(displayValue.length > 1 && displayValue !== 'Error' ? displayValue.slice(0, -1) : '0');
   };
   
   const handleDecimal = () => {
       if (waitingForNewValue) {
           setDisplayValue('0.');
-          setWaitingForNewValue(false);
-          return;
-      }
-      if (displayValue === 'Error') { // If in error state, start new '0.'
-          setDisplayValue('0.');
-          setPreviousValue(null);
-          setOperation(null);
           setWaitingForNewValue(false);
           return;
       }
@@ -129,7 +105,7 @@ export const useCalculator = () => {
 
   return {
     displayValue,
-    previousValue, // Exporting previousValue for display
+    previousValue, // <--- EXPORTED HERE
     operation,
     handleDigit,
     handleOperation,
