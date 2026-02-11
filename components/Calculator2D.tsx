@@ -1,3 +1,4 @@
+# File: components/Calculator2D.tsx
 'use client';
 
 import { useCalculator } from '../hooks/useCalculator';
@@ -8,11 +9,8 @@ import { motion } from 'framer-motion';
 export default function Calculator2D() {
     const {
         displayValue,
+        previousValue, // Now correctly imported from useCalculator
         operation,
-        // @ts-ignore - Assuming we add previousValue to hook return or just ignore for now
-        // Actually, I should check the hook. The hook DOES verify `previousValue` internally but doesn't return it? 
-        // Let me check the hook file content. I likely need to export `previousValue` from the hook.
-        // For now, I will proceed and if it errors I will fix the hook.
         handleDigit,
         handleOperation,
         handleClear,
@@ -29,10 +27,10 @@ export default function Calculator2D() {
             className="w-full max-w-md p-6 rounded-3xl glass-panel relative z-10"
         >
             {/* Decorative corner lights */}
-            <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-500/30 blur-[60px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-cyan-500/30 blur-[60px] rounded-full pointer-events-none" />
+            <div className="absolute -top-20 -left-20 w-40 h-40 bg-yellow-500/30 blur-[60px] rounded-full pointer-events-none" /> {/* Changed color from purple */}
+            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-lime-500/30 blur-[60px] rounded-full pointer-events-none" /> {/* Changed color from cyan */}
 
-            <Display2D value={displayValue} previousValue={null} operation={operation} />
+            <Display2D value={displayValue} previousValue={previousValue} operation={operation} /> {/* previousValue now passed */}
 
             <Keypad2D
                 onDigit={handleDigit}
