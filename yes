@@ -1,0 +1,23 @@
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -4,14 +4,14 @@
+ @tailwind utilities;
+ 
+ :root {
+-  --neon-blue: #00f3ff;
+-  --neon-pink: #ff00ff;
++  --neon-blue: #20c997; /* Vibrant Green */
++  --neon-pink: #ffc107; /* Golden Yellow */
+   --glass-bg: rgba(255, 255, 255, 0.05);
+   --glass-border: rgba(255, 255, 255, 0.1);
+ }
+ 
+ body {
+   margin: 0;
+   padding: 0;
+-  background-color: #050505;
++  background-color: #1a1a1a; /* Slightly lighter dark background */
+   color: white;
+   font-family: 'Inter', sans-serif;
+   overflow: hidden;
+
