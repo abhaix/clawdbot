@@ -1,4 +1,4 @@
-# File: components/Keypad2D.tsx
+// File: components/Keypad2D.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -23,45 +23,45 @@ export default function Keypad2D({
 }: Keypad2DProps) {
 
     const buttons = [
-        { label: 'C', onClick: onClear, type: 'action', color: 'text-red-400' },
-        { label: 'Del', onClick: onDelete, type: 'action', color: 'text-red-400' },
-        { label: '%', onClick: () => onOperation('%'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
-        { label: '/', onClick: () => onOperation('/'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
+        { label: 'C', onClick: onClear, type: 'action', textClass: 'text-neon-pink' },
+        { label: 'Del', onClick: onDelete, type: 'action', textClass: 'text-neon-pink' },
+        { label: '%', onClick: () => onOperation('%'), type: 'op', textClass: 'text-neon-blue' },
+        { label: '/', onClick: () => onOperation('/'), type: 'op', textClass: 'text-neon-blue' },
 
         { label: '7', onClick: () => onDigit('7'), type: 'num' },
         { label: '8', onClick: () => onDigit('8'), type: 'num' },
         { label: '9', onClick: () => onDigit('9'), type: 'num' },
-        { label: 'x', onClick: () => onOperation('*'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
+        { label: 'x', onClick: () => onOperation('*'), type: 'op', textClass: 'text-neon-blue' },
 
         { label: '4', onClick: () => onDigit('4'), type: 'num' },
         { label: '5', onClick: () => onDigit('5'), type: 'num' },
         { label: '6', onClick: () => onDigit('6'), type: 'num' },
-        { label: '-', onClick: () => onOperation('-'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
+        { label: '-', onClick: () => onOperation('-'), type: 'op', textClass: 'text-neon-blue' },
 
         { label: '1', onClick: () => onDigit('1'), type: 'num' },
         { label: '2', onClick: () => onDigit('2'), type: 'num' },
         { label: '3', onClick: () => onDigit('3'), type: 'num' },
-        { label: '+', onClick: () => onOperation('+'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
+        { label: '+', onClick: () => onOperation('+'), type: 'op', textClass: 'text-neon-blue' },
 
         { label: '0', onClick: () => onDigit('0'), type: 'num', span: 2 },
         { label: '.', onClick: onDecimal, type: 'num' },
-        { label: '=', onClick: onCalculate, type: 'equals', color: 'bg-lime-500 text-black' }, // Changed color from cyan
+        { label: '=', onClick: onCalculate, type: 'equals' },
     ];
 
     return (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4 mt-6"> {/* Slightly more vertical spacing */}
             {buttons.map((btn, idx) => (
                 <motion.button
                     key={idx}
                     onClick={btn.onClick}
-                    whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.03, boxShadow: 'var(--button-glow-hover, 0 0 8px rgba(0, 229, 255, 0.4))' }} /* Custom glow on hover */
+                    whileTap={{ scale: 0.97 }}
                     className={clsx(
-                        "h-16 rounded-xl font-bold text-xl transition-colors glass-panel flex items-center justify-center",
+                        "h-16 rounded-xl font-bold text-xl transition-all duration-200 ease-in-out flex items-center justify-center",
+                        "glass-button", // Use the new common glass button style
                         btn.span === 2 ? "col-span-2" : "col-span-1",
-                        btn.color || "text-white",
-                        // Updated shadow and border for equals button
-                        btn.type === 'equals' && "shadow-[0_0_15px_rgba(0,255,64,0.5)] border-lime-500" // Updated shadow color and border color
+                        btn.textClass || "text-white opacity-85", // Default text color
+                        btn.type === 'equals' && "bg-neon-blue text-background-dark shadow-button-equals-glow border-none hover:bg-neon-cyan hover:text-background-dark" // Unique style for equals button
                     )}
                 >
                     {btn.label}
