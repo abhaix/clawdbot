@@ -4,42 +4,82 @@
 @tailwind utilities;
 
 :root {
-  --neon-green: #00ff40; /* Changed from neon-blue */
-  --neon-yellow: #ffff00; /* Changed from neon-pink */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  /* Core Colors */
+  --background-dark: #0f0f1a; /* Deeper, richer dark background */
+  --background-light: #1a1a2e; /* Slightly lighter for subtle gradients/elements */
+
+  /* Neon Accents (more refined) */
+  --neon-blue: #00e5ff; /* Slightly softer, more vibrant blue */
+  --neon-pink: #ff4081; /* A more defined pink */
+  --neon-purple: #8e2de2; /* New: for subtle gradients */
+  --neon-cyan: #00e5ff; /* Match neon-blue for consistency in some places */
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03); /* More transparent */
+  --glass-border: rgba(255, 255, 255, 0.08); /* Finer border */
+  --glass-shadow: rgba(0, 0, 0, 0.4);
+
+  /* Button Colors */
+  --button-bg: rgba(255, 255, 255, 0.05); /* Default button background */
+  --button-hover-bg: rgba(255, 255, 255, 0.08); /* Hover effect for buttons */
+  --button-active-bg: rgba(255, 255, 255, 0.12); /* Active effect for buttons */
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #050505;
+  background: radial-gradient(circle at top left, var(--background-light) 0%, var(--background-dark) 100%);
   color: white;
-  font-family: 'Inter', sans-serif;
-  overflow: hidden;
+  font-family: var(--font-geist-sans), sans-serif; /* Use Geist Sans variable */
+  overflow: hidden; /* Keep it clean */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Dynamic Background Grid */
 .bg-grid {
-  background-size: 50px 50px;
+  background-size: 60px 60px; /* Slightly larger grid */
   background-image:
-    linear-gradient(to right, rgba(0, 255, 64, 0.05) 1px, transparent 1px), /* Changed color */
-    linear-gradient(to bottom, rgba(0, 255, 64, 0.05) 1px, transparent 1px); /* Changed color */
-  mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), /* Softer grid lines */
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black 30%, transparent 80%); /* Softer fade out */
 }
 
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px); /* Slightly stronger blur */
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 10px 40px 0 var(--glass-shadow); /* More pronounced, softer shadow */
 }
 
 .neon-text {
-  text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green); /* Changed to neon-green */
+  text-shadow: 0 0 8px var(--neon-blue), 0 0 16px var(--neon-cyan), 0 0 24px rgba(0, 229, 255, 0.3); /* Enhanced glow */
 }
 
 .neon-border {
-  box-shadow: 0 0 5px var(--neon-green), inset 0 0 5px var(--neon-green); /* Changed to neon-green */
+  box-shadow: 0 0 8px var(--neon-blue), inset 0 0 8px var(--neon-blue);
+  border-color: var(--neon-blue); /* Ensure border also lights up */
+}
+
+/* Custom button styles for better glass effect integration */
+.glass-button {
+  background: var(--button-bg);
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.glass-button:hover {
+  background: var(--button-hover-bg);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.glass-button:active {
+  background: var(--button-active-bg);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: scale(0.98);
 }
