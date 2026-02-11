@@ -1,4 +1,4 @@
-# File: components/Calculator2D.tsx
+// File: components/Calculator2D.tsx
 'use client';
 
 import { useCalculator } from '../hooks/useCalculator';
@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 export default function Calculator2D() {
     const {
         displayValue,
-        previousValue, // Now correctly imported from useCalculator
+        previousValue, // <--- NOW ACCESSIBLE
         operation,
         handleDigit,
         handleOperation,
@@ -24,13 +24,13 @@ export default function Calculator2D() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full max-w-md p-6 rounded-3xl glass-panel relative z-10"
+            className="w-full max-w-md p-6 rounded-3xl glass-panel relative z-10 border-glass-border shadow-[0_0_50px_rgba(0,0,0,0.6)]" /* Enhanced glass panel shadow */
         >
-            {/* Decorative corner lights */}
-            <div className="absolute -top-20 -left-20 w-40 h-40 bg-yellow-500/30 blur-[60px] rounded-full pointer-events-none" /> {/* Changed color from purple */}
-            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-lime-500/30 blur-[60px] rounded-full pointer-events-none" /> {/* Changed color from cyan */}
+            {/* Decorative corner lights - using new colors, slightly more subtle */}
+            <div className="absolute -top-10 -left-10 w-24 h-24 bg-neon-purple/20 blur-[50px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-neon-cyan/20 blur-[50px] rounded-full pointer-events-none" />
 
-            <Display2D value={displayValue} previousValue={previousValue} operation={operation} /> {/* previousValue now passed */}
+            <Display2D value={displayValue} previousValue={previousValue} operation={operation} />
 
             <Keypad2D
                 onDigit={handleDigit}
