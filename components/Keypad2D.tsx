@@ -1,3 +1,4 @@
+# File: components/Keypad2D.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -24,27 +25,27 @@ export default function Keypad2D({
     const buttons = [
         { label: 'C', onClick: onClear, type: 'action', color: 'text-red-400' },
         { label: 'Del', onClick: onDelete, type: 'action', color: 'text-red-400' },
-        { label: '%', onClick: () => onOperation('%'), type: 'op', color: 'text-cyan-400' },
-        { label: '/', onClick: () => onOperation('/'), type: 'op', color: 'text-cyan-400' },
+        { label: '%', onClick: () => onOperation('%'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
+        { label: '/', onClick: () => onOperation('/'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
 
         { label: '7', onClick: () => onDigit('7'), type: 'num' },
         { label: '8', onClick: () => onDigit('8'), type: 'num' },
         { label: '9', onClick: () => onDigit('9'), type: 'num' },
-        { label: 'x', onClick: () => onOperation('*'), type: 'op', color: 'text-cyan-400' },
+        { label: 'x', onClick: () => onOperation('*'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
 
         { label: '4', onClick: () => onDigit('4'), type: 'num' },
         { label: '5', onClick: () => onDigit('5'), type: 'num' },
         { label: '6', onClick: () => onDigit('6'), type: 'num' },
-        { label: '-', onClick: () => onOperation('-'), type: 'op', color: 'text-cyan-400' },
+        { label: '-', onClick: () => onOperation('-'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
 
         { label: '1', onClick: () => onDigit('1'), type: 'num' },
         { label: '2', onClick: () => onDigit('2'), type: 'num' },
         { label: '3', onClick: () => onDigit('3'), type: 'num' },
-        { label: '+', onClick: () => onOperation('+'), type: 'op', color: 'text-cyan-400' },
+        { label: '+', onClick: () => onOperation('+'), type: 'op', color: 'text-lime-400' }, // Changed color from cyan
 
         { label: '0', onClick: () => onDigit('0'), type: 'num', span: 2 },
         { label: '.', onClick: onDecimal, type: 'num' },
-        { label: '=', onClick: onCalculate, type: 'equals', color: 'bg-cyan-500 text-black' },
+        { label: '=', onClick: onCalculate, type: 'equals', color: 'bg-lime-500 text-black' }, // Changed color from cyan
     ];
 
     return (
@@ -59,7 +60,8 @@ export default function Keypad2D({
                         "h-16 rounded-xl font-bold text-xl transition-colors glass-panel flex items-center justify-center",
                         btn.span === 2 ? "col-span-2" : "col-span-1",
                         btn.color || "text-white",
-                        btn.type === 'equals' && "shadow-[0_0_15px_rgba(6,182,212,0.5)] border-cyan-500"
+                        // Updated shadow and border for equals button
+                        btn.type === 'equals' && "shadow-[0_0_15px_rgba(0,255,64,0.5)] border-lime-500" // Updated shadow color and border color
                     )}
                 >
                     {btn.label}
