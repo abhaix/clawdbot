@@ -1,4 +1,4 @@
-// File: components/Calculator2D.tsx
+# File: components/Calculator2D.tsx
 'use client';
 
 import { useCalculator } from '../hooks/useCalculator';
@@ -9,8 +9,8 @@ import { motion } from 'framer-motion';
 export default function Calculator2D() {
     const {
         displayValue,
-        previousValue, // <--- NOW ACCESSIBLE
         operation,
+        previousValue, // Use the previousValue from the hook
         handleDigit,
         handleOperation,
         handleClear,
@@ -21,14 +21,14 @@ export default function Calculator2D() {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            initial={{ opacity: 0, y: 0, scale: 0.9 }} // Changed y: 50 to y: 0
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full max-w-md p-6 rounded-3xl glass-panel relative z-10 border-glass-border shadow-[0_0_50px_rgba(0,0,0,0.6)]" /* Enhanced glass panel shadow */
+            className="w-full max-w-md p-6 rounded-3xl glass-panel relative z-10"
         >
-            {/* Decorative corner lights - using new colors, slightly more subtle */}
-            <div className="absolute -top-10 -left-10 w-24 h-24 bg-neon-purple/20 blur-[50px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-neon-cyan/20 blur-[50px] rounded-full pointer-events-none" />
+            {/* Decorative corner lights */}
+            <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-500/30 blur-[60px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-cyan-500/30 blur-[60px] rounded-full pointer-events-none" />
 
             <Display2D value={displayValue} previousValue={previousValue} operation={operation} />
 
